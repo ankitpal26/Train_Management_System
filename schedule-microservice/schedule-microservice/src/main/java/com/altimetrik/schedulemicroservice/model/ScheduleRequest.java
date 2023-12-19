@@ -8,6 +8,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class ScheduleRequest {
     private Date departureDateTime;
     private Date arrivalDateTime;
