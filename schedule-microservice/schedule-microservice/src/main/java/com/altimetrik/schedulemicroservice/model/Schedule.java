@@ -1,16 +1,12 @@
 package com.altimetrik.schedulemicroservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -19,9 +15,10 @@ import java.util.Date;
 @Entity(name = "schedule_info")
 public class Schedule {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String scheduleId;
-    private Date departureDateTime;
-    private Date arrivalDateTime;
+    private LocalDateTime departureDateTime;
+    private LocalDateTime arrivalDateTime;
     @JsonIgnore
     private String trainNumber;
     @JsonIgnore

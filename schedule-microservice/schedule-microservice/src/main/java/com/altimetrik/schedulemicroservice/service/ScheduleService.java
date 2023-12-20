@@ -10,10 +10,14 @@ public interface ScheduleService {
 
     List<Schedule> getAllScheduleTrains();
 
-    Schedule getSingleTrainSchedule(String trainNumber);
+    Schedule getSingleTrainSchedule(String scheduleId);
+
+    Schedule getScheduleByTrainNumber(String trainNumber);
+
+    Schedule getScheduleByRouteId(String routeId);
 
     Schedule updateSchedule(String scheduleId, ScheduleRequest scheduleRequest);
 
-    void deleteSchedule(String ScheduleId);
+    void deleteSchedule(String scheduleId);
 
 }

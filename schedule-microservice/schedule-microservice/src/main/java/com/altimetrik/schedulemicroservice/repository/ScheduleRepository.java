@@ -7,4 +7,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule,String> {
 
+    //custom method for find schedule  by searching trainNumber
+    Schedule findByTrainNumber(String trainNumber);
+
+    //custom method for find schedule  by searching routeId
+    Schedule findByRouteId(String routeId);
+
 }

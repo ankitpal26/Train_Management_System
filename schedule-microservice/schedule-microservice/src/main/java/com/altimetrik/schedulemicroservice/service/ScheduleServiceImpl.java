@@ -12,9 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Log4j2
@@ -23,6 +24,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private ScheduleRepository scheduleRepository;
     @Autowired
     private RestTemplate restTemplate;
+
 
     @Override
     public Schedule addNewScheduleRequest(ScheduleRequest scheduleRequest) {
@@ -35,14 +37,16 @@ public class ScheduleServiceImpl implements ScheduleService {
         Route route = routeResponseEntity.getBody();
         log.info("route-microservice  response status code : {}", routeResponseEntity.getStatusCode());
         //returns Schedule object with help of class builder
-        Schedule schedule = Schedule.builder().scheduleId(UUID.randomUUID().toString())
-                .routeId(scheduleRequest.getRouteId())
-                .trainNumber(scheduleRequest.getTrainNumber())
-                .arrivalDateTime(scheduleRequest.getArrivalDateTime())
+
+        Schedule schedule =  Schedule.builder()
                 .departureDateTime(scheduleRequest.getDepartureDateTime())
+                .arrivalDateTime(scheduleRequest.getArrivalDateTime())
+                .trainNumber(scheduleRequest.getTrainNumber())
+                .routeId(scheduleRequest.getRouteId())
+                .train(train)
                 .route(route)
-                .train(train).build();
-        scheduleRepository.save(schedule); //save the schedule in database
+                .build();
+              scheduleRepository.save(schedule); //save the schedule in database
 
         return schedule;
     }
@@ -53,8 +57,18 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Schedule getSingleTrainSchedule(String trainNumber) {
-        return scheduleRepository.findById(trainNumber).orElseThrow(() -> new NoScheduleFound("No Schedule Found are this train number : " + trainNumber));
+    public Schedule getSingleTrainSchedule(String scheduleId) {
+        return scheduleRepository.findById(scheduleId).orElseThrow(() -> new NoScheduleFound("No Schedule Found are this schedule id : " + scheduleId));
+    }
+
+    @Override
+    public Schedule getScheduleByTrainNumber(String trainNumber) {
+        return scheduleRepository.findByTrainNumber(trainNumber);
+    }
+
+    @Override
+    public Schedule getScheduleByRouteId(String routeId) {
+        return scheduleRepository.findByRouteId(routeId);
     }
 
     @Override
