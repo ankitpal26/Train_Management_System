@@ -40,7 +40,14 @@ public class TrainServiceImpl implements TrainService {
     }
 
     @Override
-    public void deleteTrainDetails(String trainNumber) {
-        trainRepository.deleteById(trainNumber);
+    public String deleteTrainDetails(String trainNumber) {
+        String message="Train does not exists for the given Train-ID";
+        Train train = getSingleTrainDetails(trainNumber);
+        if(train!=null){
+            trainRepository.deleteById(trainNumber);
+            message="Train deleted successfully";
+            return message;
+        }
+        return message;
     }
 }

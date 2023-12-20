@@ -1,8 +1,6 @@
 package com.altimetrik.trainmicroservice.service;
 
 import com.altimetrik.trainmicroservice.model.Train;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 public interface TrainService {
@@ -11,5 +9,5 @@ public interface TrainService {
     Train getSingleTrainDetails(String trainNumber);
     List<Train> getAllTrainDetails();
     Train updateTrainDetails(String trainNumber, Train train);
-    void  deleteTrainDetails(String trainNumber);
+    String  deleteTrainDetails(String trainNumber);
 }

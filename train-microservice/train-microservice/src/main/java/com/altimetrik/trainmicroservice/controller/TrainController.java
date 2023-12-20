@@ -2,6 +2,7 @@ package com.altimetrik.trainmicroservice.controller;
 
 import com.altimetrik.trainmicroservice.model.Train;
 import com.altimetrik.trainmicroservice.service.TrainService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class TrainController {
     @Autowired
     private TrainService trainService;
     @PostMapping
-    public ResponseEntity<Train> createTrain(@RequestBody Train train){
+    public ResponseEntity<Train> addTrain(@RequestBody Train train){
         return new ResponseEntity<>(trainService.addTrainDetails(train),HttpStatus.CREATED);
     }
 
@@ -30,7 +31,7 @@ public class TrainController {
     }
 
     @PutMapping("/{trainNumber}")
-    public ResponseEntity<Train> deleteTrain(@PathVariable String trainNumber,@RequestBody Train train){
+    public ResponseEntity<Train> deleteTrain(@PathVariable String trainNumber,@RequestBody @Valid Train train){
         return ResponseEntity.ok(trainService.updateTrainDetails(trainNumber,train));
     }
 
