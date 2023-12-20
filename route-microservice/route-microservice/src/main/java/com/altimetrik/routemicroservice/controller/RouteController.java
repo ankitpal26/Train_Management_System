@@ -27,14 +27,14 @@ public class RouteController {
         return ResponseEntity.ok(routeService.getSingleRoute(routeId));
     }
 
-    @PutMapping("/{routeId}")
-    public ResponseEntity<Route> updateRoute(@PathVariable String routeId,@RequestBody Route route){
-        return ResponseEntity.ok(routeService.updateRoute(routeId,route));
+    @PutMapping
+    public ResponseEntity<Route> updateRoute(@RequestBody Route route){
+        return ResponseEntity.ok(routeService.updateRoute(route));
     }
 
     @DeleteMapping("/{routeId}")
     public ResponseEntity<String> deleteTrainDetails(@PathVariable String routeId){
         routeService.deleteRoute(routeId);
-        return new ResponseEntity<>("Route  deleted successfully !!", HttpStatus.OK);
+        return new ResponseEntity<>("Route deleted successfully.", HttpStatus.OK);
     }
 }

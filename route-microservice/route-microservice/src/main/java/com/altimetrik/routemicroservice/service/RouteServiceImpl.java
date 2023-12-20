@@ -30,8 +30,8 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public Route updateRoute(String routeId, Route route) {
-        Route route1 = routeRepository.findById(routeId).orElseThrow(() -> new RouteNotFoundException("No Route found on this routeId : " + routeId));
+    public Route updateRoute( Route route) {
+        Route route1 = routeRepository.findById(route.getRouteId()).orElseThrow(() -> new RouteNotFoundException("No Route found on this routeId : " + route.getRouteId()));
         route1.setSource(route.getSource());
         route1.setDestination(route.getDestination());
         route1.setTotalKms(route.getDestination());
@@ -40,7 +40,14 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public void deleteRoute(String routeId) {
-        routeRepository.deleteById(routeId);
+    public String deleteRoute(String routeId) {
+        String message="Route does not exists for the given Route-ID";
+        Route route = getSingleRoute(routeId);
+        if(route!=null){
+            routeRepository.deleteById(routeId);
+            message="Route deleted successfully";
+            return message;
+        }
+        return message;
     }
 }
