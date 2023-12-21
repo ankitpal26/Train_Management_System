@@ -41,7 +41,7 @@ class RouteControllerTest {
                         .content(objectMapper.writerWithDefaultPrettyPrinter()
                                 .writeValueAsString(route)))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().is(201))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.routeId").exists());
     }
 
