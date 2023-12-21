@@ -1,5 +1,6 @@
 package com.altimetrik.trainmicroservice.controller;
 
+
 import com.altimetrik.trainmicroservice.model.Train;
 import com.altimetrik.trainmicroservice.service.TrainService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,18 +11,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
 import java.util.Arrays;
 
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
 
 @WebMvcTest(TrainController.class)
 class TrainControllerTest {
@@ -35,18 +32,19 @@ class TrainControllerTest {
 
     @Test
     void addTrain() throws Exception {
-        Train train = Train.builder().trainName("1").trainName("Rajadhani Express").generalCoaches("Available")
-                .generalCoachesTotalSeats("400").acCoaches("Available")
-                .acCoachesTotalSeats("200").sleeperCoaches("Available").
-                sleeperCoachesTotalSeats("500").totalKms("1000").build();
-        Mockito.when(trainService.addTrainDetails(train)).thenReturn(train);
-        mockMvc.perform(MockMvcRequestBuilders.post("/train-microservice/train")
+        Train t1 = Train.builder()
+                .trainNumber("123").trainName("Shatabadi Express").totalKms("700")
+                .acCoaches("6").acCoachesTotalSeats("3")
+                .sleeperCoaches("Available").sleeperCoachesTotalSeats("33")
+                .generalCoaches("5").generalCoachesTotalSeats("33").build();
+        Mockito.when(trainService.addTrainDetails(t1)).thenReturn(t1);
+        mockMvc.perform(post("/train-microservice/train")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writerWithDefaultPrettyPrinter()
-                                .writeValueAsString(train)))
+                                .writeValueAsString(t1)))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.trainNumber").exists());
+                .andExpect(status().is(201))
+                .andExpect(jsonPath("$.trainNumber").value(123));
 
     }
 
