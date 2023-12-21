@@ -1,4 +1,5 @@
 package com.altimetrik.schedulemicroservice.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "train_info")
 public class Train {
     @Id
     private String trainNumber;
@@ -21,4 +23,8 @@ public class Train {
     private String sleeperCoachesTotalSeats;
     private String generalCoaches;
     private String generalCoachesTotalSeats;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "train")
+    private Schedule schedule;
 }

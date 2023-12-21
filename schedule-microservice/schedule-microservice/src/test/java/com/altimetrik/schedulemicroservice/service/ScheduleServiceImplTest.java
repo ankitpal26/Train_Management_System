@@ -6,7 +6,9 @@ import com.altimetrik.schedulemicroservice.model.Route;
 import com.altimetrik.schedulemicroservice.model.Schedule;
 import com.altimetrik.schedulemicroservice.model.ScheduleRequest;
 import com.altimetrik.schedulemicroservice.model.Train;
+import com.altimetrik.schedulemicroservice.repository.RouteRepository;
 import com.altimetrik.schedulemicroservice.repository.ScheduleRepository;
+import com.altimetrik.schedulemicroservice.repository.TrainRepository;
 import lombok.Data;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,6 +35,12 @@ class ScheduleServiceImplTest {
 
     @InjectMocks
     private ScheduleServiceImpl scheduleService;
+
+    @InjectMocks
+    private TrainRepository trainRepository;
+
+    @Mock
+    private RouteRepository routeRepository;
 
     @Mock
     private ScheduleRepository scheduleRepository;

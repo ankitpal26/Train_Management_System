@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.Date;
 
 @Data
@@ -11,18 +13,20 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "schedule_info")
 public class Schedule {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private String scheduleId;
     @Temporal(TemporalType.TIMESTAMP)
     private Date departureDateTime;
     @Temporal(TemporalType.TIMESTAMP)
     private Date arrivalDateTime;
-    @ManyToOne
-    @JoinColumn(name = "trainNumber")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "train_number")
     private Train train;
-    @ManyToOne
-    @JoinColumn(name = "routeId")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "route_id")
     private Route route;
 }
