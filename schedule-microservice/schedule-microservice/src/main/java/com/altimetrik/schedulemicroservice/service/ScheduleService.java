@@ -14,9 +14,6 @@ public interface ScheduleService {
 
     Schedule getSingleTrainSchedule(String scheduleId);
 
-    Schedule getScheduleByTrainNumber(String trainNumber);
-
-    Schedule getScheduleByRouteId(String routeId);
 
     Schedule updateSchedule(String scheduleId, ScheduleRequest scheduleRequest);
 

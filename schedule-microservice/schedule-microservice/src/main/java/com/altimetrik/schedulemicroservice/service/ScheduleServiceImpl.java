@@ -10,15 +10,11 @@ import com.altimetrik.schedulemicroservice.model.Train;
 import com.altimetrik.schedulemicroservice.repository.RouteRepository;
 import com.altimetrik.schedulemicroservice.repository.ScheduleRepository;
 import com.altimetrik.schedulemicroservice.repository.TrainRepository;
-import com.netflix.discovery.converters.Auto;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,16 +70,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public Schedule getSingleTrainSchedule(String scheduleId) {
         return scheduleRepository.findById(scheduleId).orElseThrow(() -> new NoScheduleFound("No Schedule Found are this schedule id : " + scheduleId));
-    }
-
-    @Override
-    public Schedule getScheduleByTrainNumber(String trainNumber) {
-        return scheduleRepository.findByTrainNumber(trainNumber);
-    }
-
-    @Override
-    public Schedule getScheduleByRouteId(String routeId) {
-        return scheduleRepository.findByRouteId(routeId);
     }
 
     @Override

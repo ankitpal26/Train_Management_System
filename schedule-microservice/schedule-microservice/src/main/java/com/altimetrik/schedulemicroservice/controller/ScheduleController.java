@@ -33,7 +33,7 @@ public class ScheduleController {
         return ResponseEntity.ok(scheduleService.getSingleTrainSchedule(scheduleId));
     }
 
-    @PutMapping("/updateSchedule")
+    @PutMapping("/updateSchedule/{scheduleId}")
     public ResponseEntity<Schedule> updateSchedule(@PathVariable String scheduleId, @RequestBody ScheduleRequest scheduleRequest) {
         return ResponseEntity.ok(scheduleService.updateSchedule(scheduleId, scheduleRequest));
     }
@@ -41,6 +41,6 @@ public class ScheduleController {
     @DeleteMapping("/deleteSchedule/{scheduleId}")
     public ResponseEntity<String> deleteSchedule(@PathVariable String scheduleId) {
         scheduleService.deleteSchedule(scheduleId);
-        return new ResponseEntity<>("Train Schedule deleted !1", HttpStatus.OK);
+        return new ResponseEntity<>("Train Schedule deleted !!", HttpStatus.OK);
     }
 }

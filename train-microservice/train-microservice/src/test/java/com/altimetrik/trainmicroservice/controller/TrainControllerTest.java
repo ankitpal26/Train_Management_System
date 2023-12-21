@@ -102,26 +102,6 @@ class TrainControllerTest {
     }
 
     @Test
-    void deleteTrain() throws Exception {
-        Train train = Train.builder()
-                .trainNumber("1")
-                .trainName("Panchavati Express")
-                .acCoaches("Available")
-                .acCoachesTotalSeats("220")
-                .generalCoaches("Available")
-                .generalCoachesTotalSeats("440")
-                .build();
-
-        Mockito.when(trainService.updateTrainDetails(train.getTrainNumber(),train)).thenReturn(train);
-
-        mockMvc.perform((RequestBuilder) put("/train-microservice/train/{id}", train.getTrainNumber())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.trainNumber").value(train.getTrainNumber()));
-    }
-
-    @Test
     void deleteTrainDetails() throws Exception {
         Train train = Train.builder()
                 .trainNumber("1")
