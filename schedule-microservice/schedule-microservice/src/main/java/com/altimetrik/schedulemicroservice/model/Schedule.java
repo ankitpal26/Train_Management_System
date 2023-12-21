@@ -1,30 +1,28 @@
 package com.altimetrik.schedulemicroservice.model;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "schedule_info")
+@Entity
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String scheduleId;
-    private LocalDateTime departureDateTime;
-    private LocalDateTime arrivalDateTime;
-    @JsonIgnore
-    private String trainNumber;
-    @JsonIgnore
-    private String routeId;
-    @Transient
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date departureDateTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date arrivalDateTime;
+    @ManyToOne
+    @JoinColumn(name = "trainNumber")
     private Train train;
-    @Transient
+    @ManyToOne
+    @JoinColumn(name = "routeId")
     private Route route;
 }

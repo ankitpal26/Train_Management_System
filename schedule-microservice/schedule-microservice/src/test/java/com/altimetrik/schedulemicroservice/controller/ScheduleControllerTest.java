@@ -11,13 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @WebMvcTest(ScheduleController.class)
@@ -31,7 +26,8 @@ class ScheduleControllerTest {
 
     @Test
     void newScheduleRequest() throws Exception {
-        ScheduleRequest scheduleRequest = ScheduleRequest.builder().arrivalDateTime(LocalDateTime.parse("2023-12-19T15:00:00")).departureDateTime(LocalDateTime.parse("2023-12-19T15:00:00")).routeId("1").trainNumber("2").build();
+        ScheduleRequest scheduleRequest = ScheduleRequest.builder().arrivalDateTime(new Date()).departureDateTime(new Date())
+                .routeId("1").trainNumber("2").build();
         String jsonTrain = objectMapper.writeValueAsString(scheduleRequest);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/schedule-service/newRequest").contentType(MediaType.APPLICATION_JSON).content(jsonTrain)).andDo(MockMvcResultHandlers.print()) // Print the request and response for debugging

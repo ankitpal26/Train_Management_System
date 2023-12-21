@@ -1,5 +1,7 @@
 package com.altimetrik.schedulemicroservice.controller;
 
+import com.altimetrik.schedulemicroservice.exception.RouteIdNotFoundException;
+import com.altimetrik.schedulemicroservice.exception.TrainIdNotFoundException;
 import com.altimetrik.schedulemicroservice.model.Schedule;
 import com.altimetrik.schedulemicroservice.model.ScheduleRequest;
 import com.altimetrik.schedulemicroservice.service.ScheduleService;
@@ -17,7 +19,7 @@ public class ScheduleController {
     private ScheduleService scheduleService;
 
     @PostMapping("/newRequest")
-    public ResponseEntity<Schedule> newScheduleRequest(@RequestBody ScheduleRequest scheduleRequest) {
+    public ResponseEntity<Schedule> newScheduleRequest(@RequestBody ScheduleRequest scheduleRequest) throws TrainIdNotFoundException, RouteIdNotFoundException {
         return ResponseEntity.ok(scheduleService.addNewScheduleRequest(scheduleRequest));
     }
 

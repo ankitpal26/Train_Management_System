@@ -1,4 +1,5 @@
 package com.altimetrik.schedulemicroservice.model;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,8 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
+@Entity
 public class Train {
+    @Id
     private String trainNumber;
     private String trainName;
     private String totalKms;

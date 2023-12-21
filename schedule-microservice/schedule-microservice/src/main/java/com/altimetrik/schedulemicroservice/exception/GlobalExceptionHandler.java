@@ -25,6 +25,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(RouteIdNotFoundException.class)
+    public ResponseEntity<?> handlerRouteIdNotExists(RouteIdNotFoundException e, HttpServletRequest httpServletRequest) {
+        ApiError apiError = new ApiError(new Date(), httpServletRequest.getRequestURI(), Arrays.asList(e.getLocalizedMessage()), HttpStatus.NOT_FOUND.toString());
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(TrainIdNotFoundException.class)
+    public ResponseEntity<?> handlerTrainIdNotExists(TrainIdNotFoundException e, HttpServletRequest httpServletRequest) {
+        ApiError apiError = new ApiError(new Date(), httpServletRequest.getRequestURI(), Arrays.asList(e.getLocalizedMessage()), HttpStatus.NOT_FOUND.toString());
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handlerMethodInvalidArgBindingException

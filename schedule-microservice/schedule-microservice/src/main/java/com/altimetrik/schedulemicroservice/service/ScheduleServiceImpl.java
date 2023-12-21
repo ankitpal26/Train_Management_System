@@ -1,11 +1,16 @@
 package com.altimetrik.schedulemicroservice.service;
 
 import com.altimetrik.schedulemicroservice.exception.NoScheduleFound;
+import com.altimetrik.schedulemicroservice.exception.RouteIdNotFoundException;
+import com.altimetrik.schedulemicroservice.exception.TrainIdNotFoundException;
 import com.altimetrik.schedulemicroservice.model.Route;
 import com.altimetrik.schedulemicroservice.model.Schedule;
 import com.altimetrik.schedulemicroservice.model.ScheduleRequest;
 import com.altimetrik.schedulemicroservice.model.Train;
+import com.altimetrik.schedulemicroservice.repository.RouteRepository;
 import com.altimetrik.schedulemicroservice.repository.ScheduleRepository;
+import com.altimetrik.schedulemicroservice.repository.TrainRepository;
+import com.netflix.discovery.converters.Auto;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,29 +30,39 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private TrainRepository trainRepository;
+    @Autowired
+    private RouteRepository routeRepository;
+
 
     @Override
-    public Schedule addNewScheduleRequest(ScheduleRequest scheduleRequest) {
+    public Schedule addNewScheduleRequest(ScheduleRequest scheduleRequest) throws TrainIdNotFoundException, RouteIdNotFoundException {
         //calling train-microservice
         ResponseEntity<Train> trainResponseEntity = restTemplate.getForEntity("http://TRAIN-SERVICE/train-microservice/train/" + scheduleRequest.getTrainNumber(), Train.class);
         Train train = trainResponseEntity.getBody();
+        if (train==null){
+            throw new TrainIdNotFoundException("TrainNumber Not Found");
+        }
         log.info("train-microservice response status code : {}", trainResponseEntity.getStatusCode());
         //calling route-microservice to restTemplate
         ResponseEntity<Route> routeResponseEntity = restTemplate.getForEntity("http://ROUTE-SERVICE/route-microservice/route/" + scheduleRequest.getRouteId(), Route.class);
         Route route = routeResponseEntity.getBody();
+        if (route==null){
+            throw new RouteIdNotFoundException("TrainNumber Not Found");
+        }
         log.info("route-microservice  response status code : {}", routeResponseEntity.getStatusCode());
         //returns Schedule object with help of class builder
 
-        Schedule schedule =  Schedule.builder()
+        Schedule schedule = Schedule.builder()
                 .departureDateTime(scheduleRequest.getDepartureDateTime())
                 .arrivalDateTime(scheduleRequest.getArrivalDateTime())
-                .trainNumber(scheduleRequest.getTrainNumber())
-                .routeId(scheduleRequest.getRouteId())
                 .train(train)
                 .route(route)
                 .build();
-              scheduleRepository.save(schedule); //save the schedule in database
-
+        scheduleRepository.save(schedule); //save the schedule in database
+        trainRepository.save(train);
+        routeRepository.save(route);
         return schedule;
     }
 
